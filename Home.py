@@ -28,14 +28,13 @@ def check_password():
         st.error("😕 Password incorrect")
     return False
 
-
 if not check_password():
     st.stop()  # Do not continue if check_password is not True.
 
 # Page title
 st.title('🏠 Property Vision')
 
-api_key = st.secrets["api_key"] 
+api_key = st.secrets["api_key"]
 
 headers = {
     "Content-Type": "application/json",
@@ -80,6 +79,12 @@ def send_message(text, image_files=None):
         json=payload
     )
 
+    print("Response:", response)
+    print("JSON:", response.json())
+    print("Choices length:", len(response.json().get("choices", [])))
+    if response.json().get("choices"):
+        print("First message:", response.json()["choices"][0])
+
     return response.json()["choices"][0]["message"]["content"]
 
 def load_image(image_file):
@@ -102,7 +107,7 @@ result = []
 with st.form('myform', clear_on_submit=True):
     submitted = st.form_submit_button('Submit', disabled=not(uploadedfile))
     if submitted:
-        with st.spinner('Calculating...'):
+        with st.spinner('Generating description...'):
             text = (
                 "You are an estate agent. I'm going to send you images of a house. Your task is to write a description "
                 "of the house in 500 words or less. Explain the key elements that you see in the picture. Your "
@@ -110,7 +115,7 @@ with st.form('myform', clear_on_submit=True):
             )
 
             response = send_message(text=text, image_files=encoded_images)
-            result.append(response["content"])
+            result.append(response)
 
 if len(result):
     st.info(result)

@@ -35,7 +35,7 @@ if not check_password():
 # Page title
 st.title('🏠 Property Vision')
 
-api_key = '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'
+api_key = st.secrets["api_key"] 
 
 headers = {
     "Content-Type": "application/json",
@@ -44,9 +44,6 @@ headers = {
 
 MAX_TOKENS = 200
 MODEL = "gpt-4-vision-preview"
-
-with open('example.txt', 'r') as file:
-    example1 = file.read()
 
 def send_message(text, image_files=None):
     
@@ -82,20 +79,23 @@ def send_message(text, image_files=None):
         headers=headers,
         json=payload
     )
-    return response.json()["choices"][0]["message"]
+
+    return response.json()["choices"][0]["message"]["content"]
 
 def load_image(image_file):
 	img = Image.open(image_file)
 	return img
-     
+
+def encodeimages(uploadedfile):
+    encoded_images = []
+    for uploaded_file in uploadedfile:
+        eimage = base64.b64encode(uploaded_file.read()).decode('utf-8')
+        encoded_images.append(eimage)
+        return encoded_images
+
 # File upload
 uploadedfile = st.file_uploader('Upload an image', type='jpeg', accept_multiple_files=True)
-
-encoded_images = []
-
-for uploaded_file in uploadedfile:
-    eimage = base64.b64encode(uploaded_file.read()).decode('utf-8')
-    encoded_images.append(eimage)
+encoded_images = encodeimages(uploadedfile)
 
 # Form input and query
 result = []

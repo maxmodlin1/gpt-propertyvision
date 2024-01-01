@@ -112,7 +112,7 @@ with st.form('myform', clear_on_submit=True):
                "Write a real estate property description based on the images I have sent you. "
                "The property is located in Broomhill, Glasgow and it has 2 bedrooms, 1 bathroom and is 1000 square foot. "
                "Make this listing description attention-grabbing and exciting enough for potential buyers to want to learn more. "
-               "Your tone should be positive, friendly and professional. Keep the description to 500 words or less. "
+               "Your tone should be positive and professional. Keep the description to 500 words or less. "
             )
 
             response = send_message(text=text, image_files=encoded_images)

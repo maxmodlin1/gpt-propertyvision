@@ -41,7 +41,7 @@ headers = {
     "Authorization": f"Bearer {api_key}"
 }
 
-MAX_TOKENS = 200
+MAX_TOKENS = 500
 MODEL = "gpt-4-vision-preview"
 
 def send_message(text, image_files=None):
@@ -109,9 +109,10 @@ with st.form('myform', clear_on_submit=True):
     if submitted:
         with st.spinner('Generating description...'):
             text = (
-                "You are an estate agent. I'm going to send you images of a house. Your task is to write a description "
-                "of the house in 500 words or less. Explain the key elements that you see in the picture. Your "
-                "tone should be positive,friendly and professional"
+               "Write a real estate property description based on the images I have sent you. "
+               "The property is located in Broomhill, Glasgow and it has 2 bedrooms, 1 bathroom and is 1000 square foot. "
+               "Make this listing description attention-grabbing and exciting enough for potential buyers to want to learn more. "
+               "Your tone should be positive, friendly and professional. Keep the description to 500 words or less. "
             )
 
             response = send_message(text=text, image_files=encoded_images)

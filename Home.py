@@ -34,7 +34,7 @@ import json
 # Page title
 st.title('🏠 Property Vision')
 
-api_key = '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'
+api_key = st.secrets["api_key"]
 
 headers = {
     "Content-Type": "application/json",
